@@ -10,9 +10,9 @@ const winPoint = 6;
 let totalScore = 0;
 
 for (let i = 0; i < processed.length; i++) {
-  const opponent = processed[i][0].trim();
+  const opponent = processed[i][0].trim() as 'A' | 'B' | 'C';
   const roundResult = processed[i][1].trim();
-  let yours = '';
+  let yours = '' as 'A' | 'B' | 'C';
 
   // lose
   if (roundResult === 'X') {
@@ -31,7 +31,7 @@ for (let i = 0; i < processed.length; i++) {
     yours = opponent === 'A' ? 'B' : opponent === 'B' ? 'C' : 'A';
   }
 
-  totalScore += scoreMaps[yours as 'A' | 'B' | 'C'];
+  totalScore += scoreMaps[yours];
 }
 
 console.log('totalScore', totalScore);

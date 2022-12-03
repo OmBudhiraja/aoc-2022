@@ -3,7 +3,7 @@ const input = await Deno.readTextFile('./input.txt');
 const processed = input.split('\n').map((line) => line.split(' '));
 
 const maps = { A: 'rock', B: 'paper', C: 'scissors', X: 'rock', Y: 'paper', Z: 'scissors' };
-const scoreMaps = { A: 1, B: 2, C: 3, X: 1, Y: 2, Z: 3 };
+const scoreMaps = { X: 1, Y: 2, Z: 3 };
 
 const drawPoint = 3;
 const winPoint = 6;
