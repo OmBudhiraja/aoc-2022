@@ -12,15 +12,15 @@ const ropePos = Array(10)
 
 const visitedT9 = new Set<string>();
 
-function moveTail(followerIndex: number, leaderIndex: number) {
-  const [x, y] = ropePos[leaderIndex];
-  const [x2, y2] = ropePos[followerIndex];
+function moveTail(follower: number[], leader: number[]) {
+  const [x, y] = leader;
+  const [x2, y2] = follower;
 
   const shouldMove = Math.max(Math.abs(x - x2), Math.abs(y - y2)) > 1;
 
   if (shouldMove) {
-    ropePos[followerIndex][0] += Math.sign(x - x2);
-    ropePos[followerIndex][1] += Math.sign(y - y2);
+    follower[0] += Math.sign(x - x2);
+    follower[1] += Math.sign(y - y2);
   }
 }
 
@@ -34,7 +34,7 @@ processed.forEach((line) => {
     if (direction === 'D') ropePos[0][1] -= 1;
 
     for (let ropeNr = 1; ropeNr <= 9; ropeNr++) {
-      moveTail(ropeNr, ropeNr - 1);
+      moveTail(ropePos[ropeNr], ropePos[ropeNr - 1]);
     }
 
     visitedT9.add(ropePos[ropePos.length - 1].join(','));
