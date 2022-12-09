@@ -15,48 +15,11 @@ function moveTail() {
   const [x, y] = positionH;
   const [x2, y2] = positionT;
 
-  if ((x - x2 >= 1 && y - y2 >= 2) || (x - x2 >= 2 && y - y2 >= 1)) {
-    positionT[0] += 1;
-    positionT[1] += 1;
-    return;
-  }
+  const shouldMove = Math.max(Math.abs(x - x2), Math.abs(y - y2)) > 1;
 
-  if ((x - x2 >= 1 && y - y2 <= -2) || (x - x2 >= 2 && y - y2 <= -1)) {
-    positionT[0] += 1;
-    positionT[1] -= 1;
-    return;
-  }
-
-  if ((x - x2 <= -1 && y - y2 >= 2) || (x - x2 <= -2 && y - y2 >= 1)) {
-    positionT[0] -= 1;
-    positionT[1] += 1;
-    return;
-  }
-
-  if ((x - x2 <= -1 && y - y2 <= -2) || (x - x2 <= -2 && y - y2 <= -1)) {
-    positionT[0] -= 1;
-    positionT[1] -= 1;
-    return;
-  }
-
-  if (x - x2 > 1) {
-    positionT[0] += 1;
-    return;
-  }
-
-  if (x - x2 < -1) {
-    positionT[0] -= 1;
-    return;
-  }
-
-  if (y - y2 > 1) {
-    positionT[1] += 1;
-    return;
-  }
-
-  if (y - y2 < -1) {
-    positionT[1] -= 1;
-    return;
+  if (shouldMove) {
+    positionT[0] += Math.sign(x - x2);
+    positionT[1] += Math.sign(y - y2);
   }
 }
 

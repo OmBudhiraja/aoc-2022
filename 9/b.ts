@@ -6,66 +6,21 @@ const processed = input
   .trim()
   .split('\n');
 
-const positionH = [0, 0]; // x, y;
-
-const _positionT1 = [0, 0];
-const _positionT2 = [0, 0];
-const _positionT3 = [0, 0];
-const _positionT4 = [0, 0];
-const _positionT5 = [0, 0];
-const _positionT6 = [0, 0];
-const _positionT7 = [0, 0];
-const _positionT8 = [0, 0];
-const _positionT9 = [0, 0];
+const ropePos = Array(10)
+  .fill(null)
+  .map(() => [0, 0]);
 
 const visitedT9 = new Set<string>();
 
-function moveTail(follower: number[], leader: number[]) {
-  const [x, y] = leader;
-  const [x2, y2] = follower;
+function moveTail(followerIndex: number, leaderIndex: number) {
+  const [x, y] = ropePos[leaderIndex];
+  const [x2, y2] = ropePos[followerIndex];
 
-  if ((x - x2 >= 1 && y - y2 >= 2) || (x - x2 >= 2 && y - y2 >= 1)) {
-    follower[0] += 1;
-    follower[1] += 1;
-    return;
-  }
+  const shouldMove = Math.max(Math.abs(x - x2), Math.abs(y - y2)) > 1;
 
-  if ((x - x2 >= 1 && y - y2 <= -2) || (x - x2 >= 2 && y - y2 <= -1)) {
-    follower[0] += 1;
-    follower[1] -= 1;
-    return;
-  }
-
-  if ((x - x2 <= -1 && y - y2 >= 2) || (x - x2 <= -2 && y - y2 >= 1)) {
-    follower[0] -= 1;
-    follower[1] += 1;
-    return;
-  }
-
-  if ((x - x2 <= -1 && y - y2 <= -2) || (x - x2 <= -2 && y - y2 <= -1)) {
-    follower[0] -= 1;
-    follower[1] -= 1;
-    return;
-  }
-
-  if (x - x2 > 1) {
-    follower[0] += 1;
-    return;
-  }
-
-  if (x - x2 < -1) {
-    follower[0] -= 1;
-    return;
-  }
-
-  if (y - y2 > 1) {
-    follower[1] += 1;
-    return;
-  }
-
-  if (y - y2 < -1) {
-    follower[1] -= 1;
-    return;
+  if (shouldMove) {
+    ropePos[followerIndex][0] += Math.sign(x - x2);
+    ropePos[followerIndex][1] += Math.sign(y - y2);
   }
 }
 
@@ -73,16 +28,16 @@ processed.forEach((line) => {
   const [direction, steps] = line.split(' ');
 
   for (let i = 0; i < Number(steps); i++) {
-    if (direction === 'R') positionH[0] += 1;
-    if (direction === 'L') positionH[0] -= 1;
-    if (direction === 'U') positionH[1] += 1;
-    if (direction === 'D') positionH[1] -= 1;
+    if (direction === 'R') ropePos[0][0] += 1;
+    if (direction === 'L') ropePos[0][0] -= 1;
+    if (direction === 'U') ropePos[0][1] += 1;
+    if (direction === 'D') ropePos[0][1] -= 1;
 
-    for (let i = 1; i <= 9; i++) {
-      moveTail(eval(`_positionT${i}`), i === 1 ? positionH : eval(`_positionT${i - 1}`));
+    for (let ropeNr = 1; ropeNr <= 9; ropeNr++) {
+      moveTail(ropeNr, ropeNr - 1);
     }
 
-    visitedT9.add(_positionT9.join(','));
+    visitedT9.add(ropePos[ropePos.length - 1].join(','));
   }
 });
 
