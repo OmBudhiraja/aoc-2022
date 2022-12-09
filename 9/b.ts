@@ -33,7 +33,7 @@ processed.forEach((line) => {
     if (direction === 'U') ropePos[0][1] += 1;
     if (direction === 'D') ropePos[0][1] -= 1;
 
-    for (let ropeNr = 1; ropeNr <= 9; ropeNr++) {
+    for (let ropeNr = 1; ropeNr <= ropePos.length - 1; ropeNr++) {
       moveTail(ropePos[ropeNr], ropePos[ropeNr - 1]);
     }
 
